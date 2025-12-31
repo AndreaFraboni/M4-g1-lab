@@ -1,3 +1,4 @@
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class SetColor : MonoBehaviour
@@ -7,20 +8,24 @@ public class SetColor : MonoBehaviour
 
     private void Awake()
     {
-        _mr = GetComponentInParent<MeshRenderer>();
         _cm = FindAnyObjectByType<ColorManager>();
     }
 
     private void OnMouseDown()
     {
-        _mr.material.color = _cm.currentColor;
+        if (Input.GetMouseButton(0))
+        {
+            MeshRenderer _meshRenderer = this.GetComponentInParent<MeshRenderer>();
+            _meshRenderer.material.color = _cm.currentColor;
+        }
     }
 
     private void Update()
     {
         if (Input.GetMouseButton(1))
         {
-            _mr.material.SetColor("_BaseColor", Color.gray);
+            MeshRenderer _meshRenderer = this.GetComponentInParent<MeshRenderer>();
+            _meshRenderer.material.SetColor("_BaseColor", Color.gray);
         }
     }
 }
